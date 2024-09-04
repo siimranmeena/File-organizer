@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Organizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>File Organizer</h1>
+        <form id="fileForm" method="post" enctype="multipart/form-data">
+            <label for="directory">Select Directory:</label>
+            <input type="file" id="directory" name="directory" webkitdirectory mozdirectory directory multiple>
+            <button type="submit">Organize Files</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        document.getElementById('fileForm').onsubmit = function(event) {
+            event.preventDefault();
+            document.getElementById('message').textContent = "Processing...";
+            const formData = new FormData(event.target);
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('message').textContent = data;
+            })
+            .catch(error => {
+                document.getElementById('message').textContent = "An error occurred: " + error;
+            });
+        };
+    </script>
+</body>
+</html>
